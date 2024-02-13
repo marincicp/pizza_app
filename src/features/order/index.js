@@ -1,5 +1,13 @@
-import Order from "./Order";
+import Order, { loader } from "./Order";
 import OrderItem from "./OrderItem";
-import CreateOrder from "./CreateOrder";
+import CreateOrder, { action } from "./CreateOrder";
+import SearchOrder from "./SearchOrder";
 
-export { Order, OrderItem, CreateOrder };
+export {
+  Order,
+  SearchOrder,
+  OrderItem,
+  CreateOrder,
+  loader as orderLoader,
+  action as createOrderAction,
+};
