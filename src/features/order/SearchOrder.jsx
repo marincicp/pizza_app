@@ -18,7 +18,7 @@ function SearchOrder() {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <input className="rounded-full px-4 py-2 text-sml placeholder:text-stone-400 w-28 sm:w-64 sm:focus:w-72 transition-all bg-yellow-100 duration-400 focus:outline-none focus:ring focus:ring-yellow-700 focus:ring-opacity-50"
         placeholder="Search order #"
         value={query}
         onChange={handleChange}

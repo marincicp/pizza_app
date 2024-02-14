@@ -1,2 +1,4 @@
 import CreateUser from "./CreateUser";
-export { CreateUser };
+import Username from "./Username";
+
+export { CreateUser, Username };
