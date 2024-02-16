@@ -1,47 +1,39 @@
-import { useState } from 'react';
-import {
-  Form,
-  redirect,
-  useActionData,
-  useNavigate,
-  useNavigation,
-} from 'react-router-dom';
+// import { useState } from 'react';
+import { Form, redirect, useActionData, useNavigation } from 'react-router-dom';
 import { createOrder } from '../../services/apiRestaurant';
 import { isValidPhone } from '../../utils/helpers';
 import { isEmpty } from 'lodash-es';
 import { Button } from '../../ui';
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: 'Mediterranean',
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: 'Vegetale',
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: 'Spinach and Mushroom',
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { EmptyCart } from '../cart';
+import { clearCart, getCart } from '../cart/cartSlice';
+import store from '../../store';
+import { fetchAddress } from '../user/userSlice';
 
 function CreateOrder() {
-  // const [withPriority, setWithPriority] = useState(false);
+  const {
+    user: {
+      username,
+      position,
+      address,
+      status: addressStatus,
+      error: errorAddress,
+    },
+    cart,
+  } = useSelector((state) => {
+    return {
+      user: state.user,
+      cart: state.cart.cart,
+    };
+  });
+
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
-
+  const dispatch = useDispatch();
   const formError = useActionData();
-  const cart = fakeCart;
+  const isLoadingAddress = addressStatus === 'loading';
+
+  if (isEmpty(cart)) return <EmptyCart />;
 
   return (
     <div className="px-4 py-6">
@@ -50,7 +42,13 @@ function CreateOrder() {
       <Form method="POST">
         <div className="mb-4 flex  flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">First Name</label>
-          <input type="text" name="customer" required className="input grow" />
+          <input
+            type="text"
+            name="customer"
+            required
+            className="input grow"
+            defaultValue={username}
+          />
         </div>
 
         <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -65,16 +63,38 @@ function CreateOrder() {
           </div>
         </div>
 
-        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="relative mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">Address</label>
           <div className="grow">
             <input
               type="text"
               name="address"
               required
-              className="input w-full"
+              className="input  w-full"
+              disabled={isLoadingAddress}
+              defaultValue={address}
             />
+
+            {addressStatus === 'error' && (
+              <p className="mt-2 rounded-md bg-red-100 p-2 text-xs font-bold text-red-700">
+                {errorAddress}
+              </p>
+            )}
           </div>
+          {!position.latitude && !position.longitude && (
+            <span className="z-2 absolute right-1 top-1">
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                }}
+                type="small"
+                disabled={isLoadingAddress}
+              >
+                get Position
+              </Button>
+            </span>
+          )}
         </div>
 
         <div className="mb-12 flex items-center gap-5">
@@ -83,8 +103,6 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label className="font-medium" htmlFor="priority">
             Want to yo give your order priority?
@@ -93,8 +111,13 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" value={JSON.stringify(cart)} name="cart" />
+          <input
+            type="hidden"
+            value={`${position?.latitude || ''},${position?.longitude || ''}`}
+            name="position"
+          />
 
-          <Button type="primary" disabled={isSubmitting}>
+          <Button type="primary" disabled={isSubmitting || isLoadingAddress}>
             {isSubmitting ? 'Placing order...' : 'Order now'}
           </Button>
         </div>
@@ -117,10 +140,9 @@ export async function action({ request }) {
   if (!isValidPhone(order.phone)) errors.phone = 'Invalid phone number!';
 
   if (!isEmpty(errors)) return errors;
-
   const newOrder = await createOrder(order);
-  // return redirect(`/order/${newOrder.id}`);
-  return null;
+  store.dispatch(clearCart());
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;

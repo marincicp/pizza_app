@@ -1,46 +1,28 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Button, LinkButton } from '../../ui';
 import CartItem from './CartItem';
-import { map } from 'lodash-es';
-
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: 'Mediterranean',
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: 'Vegetale',
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: 'Spinach and Mushroom',
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+import { isEmpty, map } from 'lodash-es';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart, getCart } from './cartSlice';
+import { EmptyCart } from './';
 
 function Cart() {
-  const cart = fakeCart;
+  const { username } = useSelector((state) => state.user);
+  const cart = useSelector(getCart);
+
+  const dispatch = useDispatch();
+
+  if (isEmpty(cart)) return <EmptyCart />;
 
   return (
     <div className="px-4 py-3">
       <LinkButton to="/menu">&larr; Back to menu</LinkButton>
 
-      <h2 className="text-xl font-semibold">Your cart, %NAME%</h2>
+      <h2 className="text-xl font-semibold">Your cart, {username}</h2>
 
       <ul className="divide-y divide-stone-200 border-b">
         {map(cart, (item) => (
-          <li>
-            <CartItem item={item} key={item.pizzaId} />
-          </li>
+          <CartItem item={item} key={item.pizzaId} />
         ))}
       </ul>
 
@@ -50,7 +32,9 @@ function Cart() {
         </Button>
 
         {/* <Link to="/order/new">Order pizzas</Link> */}
-        <Button type="secondary">Clear cart</Button>
+        <Button type="secondary" onClick={() => dispatch(clearCart())}>
+          Clear cart
+        </Button>
       </div>
     </div>
   );

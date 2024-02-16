@@ -1,5 +1,5 @@
 // Test ID: IIDSAT
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import { getOrder } from '../../services/apiRestaurant';
 import {
   calcMinutesLeft,
@@ -8,9 +8,11 @@ import {
 } from '../../utils/helpers';
 import OrderItem from './OrderItem';
 import { map } from 'lodash-es';
+import { UpdateOrder } from './';
 
 function Order() {
   const order = useLoaderData();
+
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const {
     id,
@@ -53,9 +55,7 @@ function Order() {
 
       <ul className="divide-y divide-stone-200 border-b border-t ">
         {map(cart, (item) => (
-          <li>
-            <OrderItem item={item} key={item.id} />
-          </li>
+          <OrderItem item={item} key={item.pizzaId} />
         ))}
       </ul>
 
@@ -72,6 +72,8 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }
