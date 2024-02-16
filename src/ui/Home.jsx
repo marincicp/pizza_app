@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { CreateUser } from '../features/user';
-import Button from './Button';
+import { Button } from './';
 import { ROUTES, BUTTON_TYPES } from '../constants/constants';
 
 const { PRIMARY } = BUTTON_TYPES;
