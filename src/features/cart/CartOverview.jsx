@@ -1,9 +1,9 @@
-import { reduce } from 'lodash-es';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { getTotalCartPrice, getTotalCartQuantity } from './cartSlice';
 import { formatCurrency } from '../../utils/helpers';
 import { RiShoppingCart2Fill } from 'react-icons/ri';
+import { ROUTES } from '../../constants/constants';
 
 function CartOverview() {
   const totalCartQuantity = useSelector(getTotalCartQuantity);
@@ -17,7 +17,7 @@ function CartOverview() {
         <span>{totalCartQuantity} pizzas</span>
         <span>{formatCurrency(totalCartPrice)}</span>
       </p>
-      <Link to="/cart" className="flex items-center gap-2">
+      <Link to={ROUTES.CART} className="flex items-center gap-2">
         <span>Open</span> <RiShoppingCart2Fill />
       </Link>
     </div>

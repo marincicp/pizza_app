@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { Form, redirect, useActionData, useNavigation } from 'react-router-dom';
 import { createOrder } from '../../services/apiRestaurant';
 import { isValidPhone } from '../../utils/helpers';
@@ -10,6 +9,7 @@ import { clearCart, getCart } from '../cart/cartSlice';
 import store from '../../store';
 import { fetchAddress } from '../user/userSlice';
 import { RiCrosshair2Fill } from 'react-icons/ri';
+import { STATUS } from '../../constants/constants';
 
 function CreateOrder() {
   const {
@@ -29,10 +29,10 @@ function CreateOrder() {
   });
 
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === 'submitting';
+  const isSubmitting = navigation.state === STATUS.SUBMITTING;
   const dispatch = useDispatch();
   const formError = useActionData();
-  const isLoadingAddress = addressStatus === 'loading';
+  const isLoadingAddress = addressStatus === STATUS.LOADING;
 
   if (isEmpty(cart)) return <EmptyCart />;
 
@@ -76,7 +76,7 @@ function CreateOrder() {
               defaultValue={address}
             />
 
-            {addressStatus === 'error' && (
+            {addressStatus === STATUS.ERROR && (
               <p className="mt-2 rounded-md bg-red-100 p-2 text-xs font-bold text-red-700">
                 {errorAddress}
               </p>

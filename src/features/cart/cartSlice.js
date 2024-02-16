@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { filter, reduce, find } from 'lodash-es';
+import { SLICE_NAMES } from '../../constants/constants';
 
 const initialState = {
   cart: [],
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: SLICE_NAMES.CART,
   initialState,
   reducers: {
     addItem(state, action) {

@@ -1,7 +1,9 @@
 import { useSelector } from 'react-redux';
-// import { CreateOrder } from '../features/order';
 import { CreateUser } from '../features/user';
 import Button from './Button';
+import { ROUTES, BUTTON_TYPES } from '../constants/constants';
+
+const { PRIMARY } = BUTTON_TYPES;
 
 function Home() {
   const { username } = useSelector((state) => state.user);
@@ -18,7 +20,7 @@ function Home() {
       {!username ? (
         <CreateUser />
       ) : (
-        <Button to="/menu" type="primary">
+        <Button to={ROUTES.MENU} type={PRIMARY}>
           Continue ordering, {username}
         </Button>
       )}

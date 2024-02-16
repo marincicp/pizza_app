@@ -1,13 +1,15 @@
 import { useFetcher } from 'react-router-dom';
 import { Button } from '../../ui';
 import { updateOrder } from '../../services/apiRestaurant';
+import { BUTTON_TYPES } from '../../constants/constants';
 
+const { PRIMARY } = BUTTON_TYPES;
 function UpdateOrder({ order }) {
   const fetcher = useFetcher();
 
   return (
     <fetcher.Form method="PATCH" className="text-right">
-      <Button type="primary">Make priority</Button>
+      <Button type={PRIMARY}>Make priority</Button>
     </fetcher.Form>
   );
 }

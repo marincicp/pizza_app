@@ -4,6 +4,10 @@ import { Button } from '../../ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem, getItemQuantity } from '../cart/cartSlice';
 import { DeleteItem, UpdateItemQuantity } from '../cart';
+import { BUTTON_TYPES } from '../../constants/constants';
+
+const { SMALL } = BUTTON_TYPES;
+
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
   const dispatch = useDispatch();
@@ -50,7 +54,7 @@ function MenuItem({ pizza }) {
             </div>
           )}
           {!soldOut && !curQuantity && (
-            <Button type="small" onClick={handleAddToCart}>
+            <Button type={SMALL} onClick={handleAddToCart}>
               Add to Cart
             </Button>
           )}
