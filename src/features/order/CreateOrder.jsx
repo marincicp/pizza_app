@@ -9,6 +9,7 @@ import { EmptyCart } from '../cart';
 import { clearCart, getCart } from '../cart/cartSlice';
 import store from '../../store';
 import { fetchAddress } from '../user/userSlice';
+import { RiCrosshair2Fill } from 'react-icons/ri';
 
 function CreateOrder() {
   const {
@@ -91,7 +92,7 @@ function CreateOrder() {
                 type="small"
                 disabled={isLoadingAddress}
               >
-                get Position
+                <RiCrosshair2Fill className="text-base" />
               </Button>
             </span>
           )}
