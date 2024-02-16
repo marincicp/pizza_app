@@ -1,6 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { Button } from '../../ui';
 import { deceaseItemQuantity, increaseItemQuantity } from './cartSlice';
+import { BUTTON_TYPES } from '../../constants/constants';
+
+const { ROUNDED } = BUTTON_TYPES;
 
 function UpdateItemQuantity({ pizzaId, curQuantity }) {
   const dispatch = useDispatch();
@@ -9,7 +12,7 @@ function UpdateItemQuantity({ pizzaId, curQuantity }) {
     <div className="flex items-center gap-2 md:gap-3">
       <Button
         disabled={curQuantity === 1}
-        type="rounded"
+        type={ROUNDED}
         onClick={() => dispatch(deceaseItemQuantity(pizzaId))}
       >
         -
@@ -17,7 +20,7 @@ function UpdateItemQuantity({ pizzaId, curQuantity }) {
 
       <span className="text-sm font-medium">{curQuantity}</span>
       <Button
-        type="rounded"
+        type={ROUNDED}
         onClick={() => dispatch(increaseItemQuantity(pizzaId))}
       >
         +

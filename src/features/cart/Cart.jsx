@@ -1,10 +1,11 @@
-// import { Link } from 'react-router-dom';
-import { Button, LinkButton } from '../../ui';
-import CartItem from './CartItem';
-import { isEmpty, map } from 'lodash-es';
 import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, map } from 'lodash-es';
+import { Button, LinkButton } from '../../ui';
 import { clearCart, getCart } from './cartSlice';
-import { EmptyCart } from './';
+import { EmptyCart, CartItem } from './';
+import { ROUTES, BUTTON_TYPES } from '../../constants/constants';
+
+const { SECONDARY, PRIMARY } = BUTTON_TYPES;
 
 function Cart() {
   const { username } = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ function Cart() {
 
   return (
     <div className="px-4 py-3">
-      <LinkButton to="/menu">&larr; Back to menu</LinkButton>
+      <LinkButton to={ROUTES.MENU}>&larr; Back to menu</LinkButton>
 
       <h2 className="text-xl font-semibold">Your cart, {username}</h2>
 
@@ -27,12 +28,11 @@ function Cart() {
       </ul>
 
       <div className="mt-6 space-x-2">
-        <Button type="primary" to="/order/new">
+        <Button type={PRIMARY} to={ROUTES.NEW_ORDER}>
           Order pizza
         </Button>
 
-        {/* <Link to="/order/new">Order pizzas</Link> */}
-        <Button type="secondary" onClick={() => dispatch(clearCart())}>
+        <Button type={SECONDARY} onClick={() => dispatch(clearCart())}>
           Clear cart
         </Button>
       </div>

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/helpers';
-import { Button } from '../../ui';
 import { DeleteItem, UpdateItemQuantity } from './';
+
 function CartItem({ item }) {
   const { name, quantity, totalPrice, pizzaId } = item;
 

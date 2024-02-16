@@ -3,7 +3,9 @@ import { Button } from '../../ui';
 import { useDispatch } from 'react-redux';
 import { updateName } from './userSlice';
 import { useNavigate } from 'react-router';
+import { BUTTON_TYPES, ROUTES } from '../../constants/constants';
 
+const { primary } = BUTTON_TYPES;
 function CreateUser() {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ function CreateUser() {
     if (!username) return;
     dispatch(updateName(username));
 
-    navigate('/menu');
+    navigate(ROUTES.menu);
   }
 
   return (
@@ -33,7 +35,7 @@ function CreateUser() {
 
       {username !== '' && (
         <div>
-          <Button type="primary">Start ordering</Button>
+          <Button type={primary}>Start ordering</Button>
         </div>
       )}
     </form>

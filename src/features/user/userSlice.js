@@ -1,3 +1,4 @@
+import { SLICE_NAMES, STATUS } from '../../constants/constants';
 import { getAddress } from '../../services/apiGeocoding';
 
 function getPosition() {
@@ -29,14 +30,14 @@ export const fetchAddress = createAsyncThunk(
 
 const initialState = {
   username: '',
-  status: 'idle',
+  status: STATUS.idle,
   position: {},
   address: '',
   error: '',
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: SLICE_NAMES.USER,
   initialState,
   reducers: {
     updateName(state, action) {
@@ -46,15 +47,15 @@ const userSlice = createSlice({
   extraReducers: (builder) =>
     builder
       .addCase(fetchAddress.pending, (state) => {
-        state.status = 'loading';
+        state.status = STATUS.LOADING;
       })
       .addCase(fetchAddress.fulfilled, (state, action) => {
         state.position = action.payload.position;
         state.address = action.payload.address;
-        state.status = 'idle';
+        state.status = STATUS.IDLE;
       })
       .addCase(fetchAddress.rejected, (state, action) => {
-        state.status = 'error';
+        state.status = STATUS.ERROR;
         state.error =
           'There was a problem getting your address. Make sure to fill this field.';
       }),
