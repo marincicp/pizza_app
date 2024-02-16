@@ -1,10 +1,13 @@
-import { CreateOrder } from "../features/order";
-import { CreateUser } from "../features/user";
+import { useSelector } from 'react-redux';
+// import { CreateOrder } from '../features/order';
+import { CreateUser } from '../features/user';
+import Button from './Button';
 
 function Home() {
+  const { username } = useSelector((state) => state.user);
   return (
-    <div className="my-10 sm:my-16 text-center text-sm md:text-base px-4">
-      <h1 className="font-semibold text-xl mb-8 md:text-3xl">
+    <div className="my-10 px-4 text-center text-sm sm:my-16 md:text-base">
+      <h1 className="mb-8 text-xl font-semibold md:text-3xl">
         The best pizza.
         <br />
         <span className="text-yellow-500 ">
@@ -12,7 +15,13 @@ function Home() {
         </span>
       </h1>
 
-      <CreateUser />
+      {!username ? (
+        <CreateUser />
+      ) : (
+        <Button to="/menu" type="primary">
+          Continue ordering, {username}
+        </Button>
+      )}
     </div>
   );
 }

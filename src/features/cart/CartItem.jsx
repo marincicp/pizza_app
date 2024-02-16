@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/helpers';
 import { Button } from '../../ui';
+import { DeleteItem, UpdateItemQuantity } from './';
 function CartItem({ item }) {
-  const { pizzaId, name, quantity, totalPrice } = item;
+  const { name, quantity, totalPrice, pizzaId } = item;
 
   return (
     <li className="sm:items py-3 sm:flex sm:items-center sm:justify-between">
@@ -11,7 +12,8 @@ function CartItem({ item }) {
       </p>
       <div className="flex items-center justify-between sm:gap-6">
         <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
-        <Button type="small"> Delete</Button>
+        <UpdateItemQuantity curQuantity={quantity} pizzaId={pizzaId} />
+        <DeleteItem pizzaId={pizzaId} />
       </div>
     </li>
   );

@@ -1,9 +1,25 @@
 import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/helpers';
 import { Button } from '../../ui';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, getItemQuantity } from '../cart/cartSlice';
+import { DeleteItem, UpdateItemQuantity } from '../cart';
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
-  console.log(pizza);
+  const dispatch = useDispatch();
+  const curQuantity = useSelector(getItemQuantity(id));
+  function handleAddToCart() {
+    const newItem = {
+      pizzaId: id,
+      name,
+      quantity: 1,
+      unitPrice,
+      totalPrice: unitPrice * 1,
+    };
+
+    dispatch(addItem(newItem));
+  }
+
   return (
     <li className="flex  gap-4 py-2">
       <img
@@ -27,8 +43,17 @@ function MenuItem({ pizza }) {
               Sold out
             </p>
           )}
-
-          {!soldOut && <Button type="small">Add to Cart</Button>}
+          {!soldOut && !!curQuantity && (
+            <div className="flex items-center gap-3 sm:gap-8">
+              <UpdateItemQuantity pizzaId={id} curQuantity={curQuantity} />
+              <DeleteItem pizzaId={id} />
+            </div>
+          )}
+          {!soldOut && !curQuantity && (
+            <Button type="small" onClick={handleAddToCart}>
+              Add to Cart
+            </Button>
+          )}
         </div>
       </div>
     </li>
