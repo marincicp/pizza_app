@@ -11,7 +11,7 @@ import { Menu, menuLoader } from './features/menu';
 import { ROUTES } from './constants/constants';
 
 export const routes = [
-  { path: '/', element: <Home /> },
+  { path: ROUTES.HOME, element: <Home /> },
   {
     path: ROUTES.MENU,
     element: <Menu />,

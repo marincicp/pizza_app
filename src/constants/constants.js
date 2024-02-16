@@ -11,6 +11,7 @@ export const BUTTON_TYPES = {
 };
 
 export const ROUTES = {
+  HOME: '/',
   MENU: '/menu',
   NEW_ORDER: '/order/new',
   CART: '/cart',
