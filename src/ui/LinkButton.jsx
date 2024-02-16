@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/constants';
+import PropTypes from 'prop-types';
 
 const { GO_BACK } = ROUTES;
 
@@ -23,3 +24,8 @@ function LinkButton({ children, to }) {
 }
 
 export default LinkButton;
+
+LinkButton.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  to: PropTypes.string,
+};

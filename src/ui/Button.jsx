@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function Button({ children, disabled, to, type, onClick }) {
   const base =
@@ -37,3 +38,11 @@ function Button({ children, disabled, to, type, onClick }) {
 }
 
 export default Button;
+
+Button.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  disabled: PropTypes.bool,
+  to: PropTypes.string,
+  onClick: PropTypes.func,
+  type: PropTypes.string,
+};

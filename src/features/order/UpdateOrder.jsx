@@ -4,7 +4,7 @@ import { updateOrder } from '../../services/apiRestaurant';
 import { BUTTON_TYPES } from '../../constants/constants';
 
 const { PRIMARY } = BUTTON_TYPES;
-function UpdateOrder({ order }) {
+function UpdateOrder() {
   const fetcher = useFetcher();
 
   return (
@@ -16,7 +16,7 @@ function UpdateOrder({ order }) {
 
 export default UpdateOrder;
 
-export async function action({ request, params }) {
+export async function action({ params }) {
   const data = { priority: true };
 
   await updateOrder(params.orderId, data);
